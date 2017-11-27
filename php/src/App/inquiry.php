@@ -21,7 +21,7 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class Todo extends \Spot\Entity
+class inquiry extends \Spot\Entity
 {
     protected static $table = "todos";
 
@@ -29,11 +29,16 @@ class Todo extends \Spot\Entity
     {
         return [
             "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "name" => ["type" => "text", "unsigned" => true]
+            "name" => ["type" => "text"],
+            "gender" => ["type" => "text"],
+            "class" => ["type" => "text"],
+            "number" => ["type" => "integer"],
+            "date" => ["type" => "string"],
+            "name" => ["type" => "text"]
         ];
     }
 
-    public static function events(EventEmitter $emitter)
+    /*public static function events(EventEmitter $emitter)
     {
         $emitter->on("beforeInsert", function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->uid = (new Base62)->encode(random_bytes(9));
@@ -42,7 +47,7 @@ class Todo extends \Spot\Entity
         $emitter->on("beforeUpdate", function (EntityInterface $entity, MapperInterface $mapper) {
             $entity->updated_at = new \DateTime();
         });
-    }
+    }*/
     public function timestamp()
     {
         return $this->updated_at->getTimestamp();

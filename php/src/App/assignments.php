@@ -21,20 +21,24 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class batches extends \Spot\Entity
+class Todo extends \Spot\Entity
 {
-    protected static $table = "batches";
+    protected static $table = "todos";
 
 //copy for each table in database
     public static function fields()
     {
         return [
             "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "name" => ["type" => "string"]
-            
+            "name" => ["type" => "string"],
+            "chapter" => ["type" => "string", "unique" => true],
+            "class" => ["type" => "string"],
+            "date" => ["type" => "string"],
+            "slideshare"   => ["type" => "string"],
+            "subject"   => ["type" => "string"]
         ];
     }
-/*
+
     public static function events(EventEmitter $emitter)
     {
         $emitter->on("beforeInsert", function (EntityInterface $entity, MapperInterface $mapper) {
@@ -45,7 +49,6 @@ class batches extends \Spot\Entity
             $entity->updated_at = new \DateTime();
         });
     }
-    */
     public function timestamp()
     {
         return $this->updated_at->getTimestamp();

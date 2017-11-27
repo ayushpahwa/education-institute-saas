@@ -21,16 +21,20 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class batches extends \Spot\Entity
+class attendance extends \Spot\Entity
 {
-    protected static $table = "batches";
+    protected static $table = "attendance";
 
 //copy for each table in database
     public static function fields()
     {
         return [
-            "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "name" => ["type" => "string"]
+            "attendanceid" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
+            "batch" => ["type" => "string"],
+            "date" => ["type" => "string"],
+            "subject" => ["type" => "string"],
+            "class" => ["type" => "string"],
+            "percent" => ["type" => "integer"]
             
         ];
     }

@@ -21,7 +21,7 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class Todo attenda \Spot\Entity
+class Attenda \Spot\Entity
 {
     protected static $table = "attenda";
 
@@ -53,17 +53,5 @@ class Todo attenda \Spot\Entity
         return $this->updated_at->getTimestamp();
     }
 
-    public function etag()
-    {
-        return md5($this->uid . $this->timestamp());
-    }
-
-    public function clear()
-    {
-        $this->data([
-            "order" => null,
-            "title" => null,
-            "completed" => null
-        ]);
-    }
+    
 }

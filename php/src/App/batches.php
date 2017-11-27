@@ -21,7 +21,7 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class batches extends \Spot\Entity
+class Batches extends \Spot\Entity
 {
     protected static $table = "batches";
 
@@ -51,17 +51,5 @@ class batches extends \Spot\Entity
         return $this->updated_at->getTimestamp();
     }
 
-    public function etag()
-    {
-        return md5($this->uid . $this->timestamp());
-    }
-
-    public function clear()
-    {
-        $this->data([
-            "order" => null,
-            "title" => null,
-            "completed" => null
-        ]);
-    }
+   
 }

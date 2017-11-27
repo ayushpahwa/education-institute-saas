@@ -21,37 +21,30 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class Todo extends \Spot\Entity
+class Students extends \Spot\Entity
 {
-    protected static $table = "todos";
+    protected static $table = "students";
 
     public static function fields()
     {
         return [
-<<<<<<< Updated upstream
-            "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "name" => ["type" => "text", "unsigned" => true]
-=======
-            "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true, "unique" => true],
-            "name" => ["type" => "string"],
+            "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "unique" => true],
+            "name" => ["type" => "string"]
             "eid" => ["type" => "string"],
             "phone" => ["type" => "string"],
             "father" => ["type" => "string"],
 			"mother" => ["type" => "string"],
 			"contact" => ["type" => "string"],
-			"class" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement"=> true, "unique" => true],
-            "batch"   => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement"=> true, "unique" => true],
+			"class" => ["type" => "integer", "unsigned" => true, "primary" => true, "unique" => true],
+            "batch"   => ["type" => "integer", "unsigned" => true, "primary" => true, "unique" => true],
             "sub5" => ["type" => "string"],
 			"amount" => ["type" => "string"],
 			"feemonth" => ["type" => "string"],
 			"feediscount" => ["type" => "string"],
-			"feetype" => ["type" => "string"],
-			
-			"updated_at"   => ["type" => "datetime", "value" => new \DateTime()]
->>>>>>> Stashed changes
+			"feetype" => ["type" => "string"]
         ];
     }
-
+/*
     public static function events(EventEmitter $emitter)
     {
         $emitter->on("beforeInsert", function (EntityInterface $entity, MapperInterface $mapper) {
@@ -62,6 +55,8 @@ class Todo extends \Spot\Entity
             $entity->updated_at = new \DateTime();
         });
     }
+	
+	
     public function timestamp()
     {
         return $this->updated_at->getTimestamp();
@@ -80,4 +75,5 @@ class Todo extends \Spot\Entity
             "completed" => null
         ]);
     }
+	*/
 }

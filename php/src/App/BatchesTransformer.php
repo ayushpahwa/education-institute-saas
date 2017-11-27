@@ -28,8 +28,6 @@ class BatchesTransformer extends Fractal\TransformerAbstract
         return [
             "id" => (integer)$batches->id ?: null,
             "name" => (string)$batches->order ?: 0
-            
-            
         ];
     }
 }

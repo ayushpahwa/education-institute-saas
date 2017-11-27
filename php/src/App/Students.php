@@ -29,7 +29,7 @@ class Students extends \Spot\Entity
     {
         return [
             "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "unique" => true],
-            "name" => ["type" => "string"],
+            "name" => ["type" => "string"]
             "eid" => ["type" => "string"],
             "phone" => ["type" => "string"],
             "father" => ["type" => "string"],

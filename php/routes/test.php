@@ -1,7 +1,8 @@
-<?php
 
-use App\College;
-use App\CollegeTransformer;
+<?php
+ 
+use App\Test;
+use App\TestTransformer;
 use Exception\NotFoundException;
 use Exception\ForbiddenException;
 use Exception\PreconditionFailedException;
@@ -10,50 +11,50 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\DataArraySerializer;
-$app->get("/colleges", function ($request, $response, $arguments) {
+$app->get("/test", function ($request, $response, $arguments) {
    
- $colleges = $this->spot->mapper("App\College")
+ $test = $this->spot->mapper("App\Test")
         ->all()//->with('students')
         ;
     /* Serialize the response data. */
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
-    $resource = new Collection($colleges, new CollegeTransformer);
+    $resource = new Collection($test, new TestTransformer);
     $data = $fractal->createData($resource)->toArray();
     return $response->withStatus(200)
         ->withHeader("Content-Type", "application/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 });
-$app->post("/colleges", function ($request, $response, $arguments) {
+$app->post("/test", function ($request, $response, $arguments) {
     /* Check if token has needed scope. */
-    if (true === $this->token->hasScope(["college.all", "college.create"])) {
-        throw new ForbiddenException("Token not allowed to create colleges.", 403);
+    if (true === $this->token->hasScope(["test.all", "test.create"])) {
+        throw new ForbiddenException("Token not allowed to create test.", 403);
     }
     $body = $request->getParsedBody();
-    $college = new College($body);
-    $this->spot->mapper("App\College")->save($college);
+    $test = new Test($body);
+    $this->spot->mapper("App\Test")->save($test);
     /* Serialize the response data. */
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
-    $resource = new Item($college, new CollegeTransformer);
+    $resource = new Item($test, new TestTransformer);
     $data = $fractal->createData($resource)->toArray();
     $data["status"] = "ok";
-    $data["message"] = "New college created";
+    $data["message"] = "New test created";
     return $response->withStatus(201)
         ->withHeader("Content-Type", "application/json")
         ->withHeader("Location", $data["data"]["links"]["self"])
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 });
-$app->get("/colleges/{id}", function ($request, $response, $arguments) {
+$app->get("/test/{id}", function ($request, $response, $arguments) {
     /* Check if token has needed scope. */
-    if (true === $this->token->hasScope(["college.all", "college.read"])) {
-        throw new ForbiddenException("Token not allowed to list colleges.", 403);
+    if (true === $this->token->hasScope(["test.all", "test.read"])) {
+        throw new ForbiddenException("Token not allowed to list test.", 403);
     }
-    /* Load existing college using provided id */
-    if (false === $college = $this->spot->mapper("App\College")->first([
+    /* Load existing test using provided id */
+    if (false === $test = $this->spot->mapper("App\Test")->first([
         "id" => $arguments["id"]
     ])) {
-        throw new NotFoundException("College not found.", 404);
+        throw new NotFoundException("Test not found.", 404);
     };
     /* If-Modified-Since and If-None-Match request header handling. */
     /* Heads up! Apache removes previously set Last-Modified header */
@@ -64,46 +65,46 @@ $app->get("/colleges/{id}", function ($request, $response, $arguments) {
     /* Serialize the response data. */
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
-    $resource = new Item($college, new CollegeTransformer);
+    $resource = new Item($test, new TestTransformer);
     $data = $fractal->createData($resource)->toArray();
     return $response->withStatus(200)
         ->withHeader("Content-Type", "appliaction/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 });
-$app->patch("/colleges/{id}", function ($request, $response, $arguments) {
+$app->patch("/test/{id}", function ($request, $response, $arguments) {
     /* Check if token has needed scope. */
-    if (true === $this->token->hasScope(["college.all", "college.update"])) {
-        throw new ForbiddenException("Token not allowed to update colleges.", 403);
+    if (true === $this->token->hasScope(["test.all", "test.update"])) {
+        throw new ForbiddenException("Token not allowed to update test.", 403);
     }
-    /* Load existing college using provided id */
-    if (false === $college = $this->spot->mapper("App\College")->first([
+    /* Load existing test using provided id */
+    if (false === $test = $this->spot->mapper("App\Test")->first([
         "id" => $arguments["id"]
     ])) {
-        throw new NotFoundException("College not found.", 404);
+        throw new NotFoundException("Test not found.", 404);
     };
     $body = $request->getParsedBody();
-    $college->data($body);
-    $this->spot->mapper("App\College")->save($college);
+    $test->data($body);
+    $this->spot->mapper("App\Test")->save($test);
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
-    $resource = new Item($college, new CollegeTransformer);
+    $resource = new Item($test, new TestTransformer);
     $data = $fractal->createData($resource)->toArray();
     $data["status"] = "ok";
-    $data["message"] = "College updated";
+    $data["message"] = "Test updated";
     return $response->withStatus(200)
         ->withHeader("Content-Type", "application/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 });
-$app->put("/colleges/{id}", function ($request, $response, $arguments) {
+$app->put("/test/{id}", function ($request, $response, $arguments) {
     /* Check if token has needed scope. */
-    if (true === $this->token->hasScope(["college.all", "college.update"])) {
-        throw new ForbiddenException("Token not allowed to update colleges.", 403);
+    if (true === $this->token->hasScope(["test.all", "test.update"])) {
+        throw new ForbiddenException("Token not allowed to update test.", 403);
     }
-    /* Load existing college using provided id */
-    if (false === $college = $this->spot->mapper("App\College")->first([
+    /* Load existing test using provided id */
+    if (false === $test = $this->spot->mapper("App\Test")->first([
         "id" => $arguments["id"]
     ])) {
-        throw new NotFoundException("College not found.", 404);
+        throw new NotFoundException("Test not found.", 404);
     };
     /* PUT requires If-Unmodified-Since or If-Match request header to be present. */
     if (false === $this->cache->hasStateValidator($request)) {
@@ -111,34 +112,34 @@ $app->put("/colleges/{id}", function ($request, $response, $arguments) {
     }
     $body = $request->getParsedBody();
     /* PUT request assumes full representation. If any of the properties is */
-    /* missing set them to default values by clearing the college object first. */
-    $college->clear();
-    $college->data($body);
-    $this->spot->mapper("App\College")->save($college);
+    /* missing set them to default values by clearing the test object first. */
+    $test->clear();
+    $test->data($body);
+    $this->spot->mapper("App\Test")->save($test);
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
-    $resource = new Item($college, new CollegeTransformer);
+    $resource = new Item($test, new TestTransformer);
     $data = $fractal->createData($resource)->toArray();
     $data["status"] = "ok";
-    $data["message"] = "College updated";
+    $data["message"] = "Test updated";
     return $response->withStatus(200)
         ->withHeader("Content-Type", "application/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 });
-$app->delete("/colleges/{id}", function ($request, $response, $arguments) {
+$app->delete("/test/{id}", function ($request, $response, $arguments) {
     /* Check if token has needed scope. */
-    if (true === $this->token->hasScope(["college.all", "college.delete"])) {
-        throw new ForbiddenException("Token not allowed to delete colleges.", 403);
+    if (true === $this->token->hasScope(["test.all", "test.delete"])) {
+        throw new ForbiddenException("Token not allowed to delete test.", 403);
     }
-    /* Load existing college using provided id */
-    if (false === $college = $this->spot->mapper("App\College")->first([
+    /* Load existing test using provided id */
+    if (false === $test = $this->spot->mapper("App\Test")->first([
         "id" => $arguments["id"]
     ])) {
-        throw new NotFoundException("College not found.", 404);
+        throw new NotFoundException("Test not found.", 404);
     };
-    $this->spot->mapper("App\College")->delete($college);
+    $this->spot->mapper("App\Test")->delete($test);
     $data["status"] = "ok";
-    $data["message"] = "College deleted";
+    $data["message"] = "Test deleted";
     return $response->withStatus(200)
         ->withHeader("Content-Type", "application/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

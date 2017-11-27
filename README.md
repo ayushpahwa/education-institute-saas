@@ -23,8 +23,11 @@ Will be added as the project advances.
 ## Contributors
 
 Amrit Singh Rana - 101412004
+
 Ayush Pahwa - 101412011
-Bharat Chhabra - 101412012
+
+Kartik Gogia - 101412018
+
 Namit Jalota - 101412022
 
 ## License

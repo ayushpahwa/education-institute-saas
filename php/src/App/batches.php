@@ -25,16 +25,13 @@ class Todo extends \Spot\Entity
 {
     protected static $table = "todos";
 
+//copy for each table in database
     public static function fields()
     {
         return [
             "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "order" => ["type" => "integer", "unsigned" => true, "value" => 0],
-            "uid" => ["type" => "string", "length" => 16, "unique" => true],
-            "title" => ["type" => "string", "length" => 255],
-            "completed" => ["type" => "boolean", "value" => false],
-            "created_at"   => ["type" => "datetime", "value" => new \DateTime()],
-            "updated_at"   => ["type" => "datetime", "value" => new \DateTime()]
+            "name" => ["type" => "string"]
+            
         ];
     }
 

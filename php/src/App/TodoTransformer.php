@@ -29,8 +29,6 @@ class TodoTransformer extends Fractal\TransformerAbstract
             "id" => (string)$todo->id ?: null,
             "name" => (integer)$todo->order ?: 0,
             "title" => (string)$todo->title ?: null,
-            "completed" => !!$todo->completed,
-            "links"        => [
                 "self" => "/todos/{$todo->uid}"
             ]
         ];

@@ -13,29 +13,31 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "puppetlabs/centos-6.6-64-nocm"
-  config.vm.network "private_network", ip: "192.168.50.50"
+  config.vm.network "private_network", ip: "192.168.50.52"
 
-  # Make sure logs folder will be writable for Vagrant and Apache
-  config.vm.synced_folder "logs", "/vagrant/logs", owner: 500, group: 48
+  # Configure cached packages to be shared between instances of the same base box.
+  # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+  if Vagrant.has_plugin?("vagrant-cachier")
+      config.cache.scope = :box
+  end
 
-  # Make sure downloads folder will be writable for Apache
-  #config.vm.synced_folder "public/downloads", "/vagrant/public/downloads", owner: 48, group: 48
+  # Make sure logs folder will be writable for Apache
+  config.vm.synced_folder "logs", "/vagrant/logs", owner: 48, group: 48
 
   # Install all needed packages
   config.vm.provision "shell", name: "rpm", inline: <<-SHELL
-    rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
     rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+    rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
   SHELL
 
   # PHP and modules
   config.vm.provision "shell", name: "php", inline: <<-SHELL
-    yum -y install mod_php71w php71w-opcache
-    yum -y install php71w-cli
-    yum -y install php71w-common
-    yum -y install php71w-mysqlnd
+    yum -y install mod_php71w php71w-opcache php71w-cli
     yum -y install php71w-pdo
-    yum -y install php71w-xml
+    yum -y install php71w-mcrypt php71w-mbstring
+    yum -y install php71w-mysqlnd
     yum -y install mod_ssl
+    yum -y install php71w-xmlwriter
   SHELL
 
   # Use the provided example environment
@@ -43,17 +45,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     cd /vagrant && cp .env.example .env
   SHELL
 
-  # Uncomment to install basic tools
-  #config.vm.provision "shell", name: "tools", inline: <<-SHELL
-  #  yum -y install zsh
-  #  yum -y install finger
-  #  yum -y install telnet
-  #  yum -y install screen
-  #SHELL
+  # Install Composer and dependencies
+  config.vm.provision "shell", name: "composer", inline: <<-SHELL
+    curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+    cd /vagrant && /usr/local/bin/composer install
+  SHELL
 
-  # MariaDB
+# MariaDB
   config.vm.provision "shell", name: "mariadb", inline: <<-SHELL
-  cat <<EOF | sudo tee /etc/yum.repos.d/influxdb.repo
+  cat <<EOF | sudo tee /etc/yum.repos.d/mariadb.repo
 [mariadb]
 name = MariaDB
 baseurl = http://yum.mariadb.org/10.0/centos6-amd64
@@ -62,11 +62,14 @@ gpgcheck=1
 EOF
     yum -y install MariaDB-server
     yum -y install MariaDB-client
+
     /sbin/service mysql start
     /sbin/chkconfig --levels 235 mysql on
+
     echo "CREATE DATABASE example" | mysql -u root
     cd /vagrant && bin/db migrate
   SHELL
+
 
   # Update Apache config and restart
   config.vm.provision "shell", name: "apache", inline: <<-'SHELL'
@@ -90,16 +93,10 @@ EOF
     echo "exec /etc/init.d/httpd restart" >> /etc/init/httpd.conf
   SHELL
 
-  # Stop iptables because it causes too much confusion
+  # Stop iptable because it will cause too much confusion
   config.vm.provision "shell", name: "iptables", inline: <<-SHELL
     /etc/init.d/iptables stop
     /sbin/chkconfig iptables off
-  SHELL
-
-  # Install Composer and dependencies
-  config.vm.provision "shell", name: "composer", inline: <<-SHELL
-    curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-    cd /vagrant && /usr/local/bin/composer install
   SHELL
 
   config.vm.post_up_message = <<MESSAGE
@@ -111,7 +108,7 @@ EOF
   ███████║███████╗██║██║ ╚═╝ ██║██████╔╝
   ╚══════╝╚══════╝╚═╝╚═╝     ╚═╝╚═════╝
 
- You can access me at: https://192.168.50.50/
+ You can access me at: http://192.168.50.52/todos
 
 MESSAGE
 

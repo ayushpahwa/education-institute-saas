@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Slim skeleton package
+ * This file is part of the Slim API skeleton package
  *
  * Copyright (c) 2016-2017 Mika Tuupola
  *
@@ -9,11 +9,35 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Project home:
- *   https://github.com/tuupola/slim-skeleton
+ *   https://github.com/tuupola/slim-api-skeleton
  *
  */
 
 $container = $app->getContainer();
+
+use Spot\Config;
+use Spot\Locator;
+use Tuupola\DBAL\Logging\Psr3Logger;
+
+$container["spot"] = function ($container) {
+
+    $config = new Config();
+    $mysql = $config->addConnection("mysql", [
+        "dbname" => getenv("DB_NAME"),
+        "user" => getenv("DB_USER"),
+        "password" => getenv("DB_PASSWORD"),
+        "host" => getenv("DB_HOST"),
+        "driver" => "pdo_mysql",
+        "charset" => "utf8"
+    ]);
+
+    $spot = new Locator($config);
+
+    $logger = new Psr3Logger($container["logger"]);
+    $mysql->getConfiguration()->setSQLLogger($logger);
+
+    return $spot;
+};
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
@@ -21,7 +45,9 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Formatter\LineFormatter;
 
-$container["logger"] = function ($containerc) {
+$container = $app->getContainer();
+
+$container["logger"] = function ($container) {
     $logger = new Logger("slim");
 
     $formatter = new LineFormatter(
@@ -37,29 +63,4 @@ $container["logger"] = function ($containerc) {
     $logger->pushHandler($rotating);
 
     return $logger;
-};
-
-$container["spot"] = function ($container) {
-
-    $config = new \Spot\Config();
-    $connection = $config->addConnection("connection", [
-        "dbname" => getenv("DB_NAME"),
-        "user" => getenv("DB_USER"),
-        "password" => getenv("DB_PASSWORD"),
-        "host" => getenv("DB_HOST"),
-        "path" => getenv("DB_PATH"),
-        "driver" => "pdo_" . getenv("DB_DRIVER"),
-        "charset" => "utf8"
-    ]);
-
-    $spot = new \Spot\Locator($config);
-
-    $sqllogger = new Tuupola\DBAL\Logging\Psr3Logger($container["logger"]);
-    $connection->getConfiguration()->setSQLLogger($sqllogger);
-
-    return $spot;
-};
-
-$container["view"] = function ($c) {
-    return new \League\Plates\Engine(__DIR__ . "/../views", "html");
 };

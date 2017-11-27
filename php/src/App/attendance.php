@@ -21,9 +21,9 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class Todo extends \Spot\Entity
+class attendance extends \Spot\Entity
 {
-    protected static $table = "todos";
+    protected static $table = "attendance";
 
 //copy for each table in database
     public static function fields()
@@ -38,7 +38,7 @@ class Todo extends \Spot\Entity
             
         ];
     }
-
+/*
     public static function events(EventEmitter $emitter)
     {
         $emitter->on("beforeInsert", function (EntityInterface $entity, MapperInterface $mapper) {
@@ -49,6 +49,7 @@ class Todo extends \Spot\Entity
             $entity->updated_at = new \DateTime();
         });
     }
+    */
     public function timestamp()
     {
         return $this->updated_at->getTimestamp();

@@ -29,7 +29,7 @@ class AssignmentsTransformer extends Fractal\TransformerAbstract
             "id" => (integer)$assignments->id ?: null,
             "name" => (string)$assignments->order ?: 0,
             "chapter" => (string)$assignments->chapter ?: null,
-            "completed" => !!$todo->completed,
+            "completed" => !!$Assignments->assignments
             
         ];
     }

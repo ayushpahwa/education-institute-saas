@@ -15,22 +15,20 @@
 
 namespace App;
 
-use App\Attendance;
+use App\Classes;
 use League\Fractal;
 
 //for each table change these
 
-class AttendanceTransformer extends Fractal\TransformerAbstract
+class ClassesTransformer extends Fractal\TransformerAbstract
 {
 
-    public function transform(Attendance $attendance)
+    public function transform(Classes $classes)
     {
         return [
-            "attendanceid" => (integer)$attendanceid->attendanceid ?: null,
-            "batch" => (string)$attendance->batch ?: 0,
-            "date" => (string)$attendance->date ?: null,
-            "subject" => !!$attendance->subject
-            
+            "id" => (integer)$classes->id ?: null,
+            "name" => (string)$classes->name ?: 0,
+            ]
         ];
     }
 }

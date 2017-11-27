@@ -21,9 +21,9 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class inquiry extends \Spot\Entity
+class Inquiry extends \Spot\Entity
 {
-    protected static $table = "todos";
+    protected static $table = "inquiry";
 
     public static function fields()
     {

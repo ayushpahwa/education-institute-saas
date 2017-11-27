@@ -21,15 +21,21 @@ use Spot\EventEmitter;
 use Tuupola\Base62;
 use Psr\Log\LogLevel;
 
-class Classes extends \Spot\Entity
+class Test extends \Spot\Entity
 {
-    protected static $table = "classes";
+    protected static $table = "test";
 
     public static function fields()
     {
         return [
-            "id" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
-            "name" => ["type" => "text", "unsigned" => true]
+            "testid" => ["type" => "integer", "unsigned" => true, "primary" => true, "autoincrement" => true],
+            "class" => ["type" => "text"]
+            "subject" => ["type" => "text"]
+            "batch" => ["type" => "text"]
+            "date" => ["type" => "text"]
+            "name" => ["type" => "text"]
+            "mm" => ["type" => "text"]
+            "type" => ["type" => "float"]
         ];
     }
 

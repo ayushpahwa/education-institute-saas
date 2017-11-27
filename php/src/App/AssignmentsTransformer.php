@@ -15,24 +15,22 @@
 
 namespace App;
 
-use App\Todo;
+use App\Assignments;
 use League\Fractal;
 
 //for each table change these
 
-class TodoTransformer extends Fractal\TransformerAbstract
+class AssignmentsTransformer extends Fractal\TransformerAbstract
 {
 
-    public function transform(Todo $todo)
+    public function transform(Assignments $ssignments)
     {
         return [
-            "id" => (string)$todo->id ?: null,
-            "name" => (integer)$todo->order ?: 0,
-            "title" => (string)$todo->title ?: null,
+            "id" => (integer)$assignments->id ?: null,
+            "name" => (string)$assignments->order ?: 0,
+            "chapter" => (string)$assignments->chapter ?: null,
             "completed" => !!$todo->completed,
-            "links"        => [
-                "self" => "/todos/{$todo->uid}"
-            ]
+            
         ];
     }
 }

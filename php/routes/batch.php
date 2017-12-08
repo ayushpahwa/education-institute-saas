@@ -13,13 +13,15 @@ use League\Fractal\Serializer\DataArraySerializer;
 $app->get("/batches", function ($request, $response, $arguments) {
    
  $batches = $this->spot->mapper("App\Batch")
-        ->all()//->with('students')
+        ->all()
         ;
-    /* Serialize the response data. */
     $fractal = new Manager();
     $fractal->setSerializer(new DataArraySerializer);
     $resource = new Collection($batches, new BatchTransformer);
     $data = $fractal->createData($resource)->toArray();
+    if ($data.length == 0) {
+        $data["message"] = "No data found."
+    }
     return $response->withStatus(200)
         ->withHeader("Content-Type", "application/json")
         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

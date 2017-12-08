@@ -1,0 +1,57 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit student [ID: {{student.id}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="student_form" class="form-horizontal" role="form" novalidate>
+            <form-element label="Name" mod="student">
+                <input type="text" class="form-control" name="name" placeholder="Name" ng-model="student.name"  focus/>
+            </form-element>
+            
+            <form-element label="Total Fees" mod="student">
+                <input type="number" name="amount" class="form-control" placeholder="Total Fees" ng-model="student.amount" />
+            </form-element>
+            <form-element label="Fees type" mod="student">
+               <select name="class" class="form-control"  ng-model="student.feetype" >
+                    <option value="monthly">monthly</option>
+                    <option value="quaterly">quaterly</option>
+                    <option value="halfyearly">half yearly</option>
+                    <option value="yearly">yearly</option>
+                </select>
+            </form-element>
+            <form-element label="Fee Discount" mod="student">
+                <input type="number" name="feediscount" class="form-control" placeholder="Fee Discount" ng-model="student.feediscount" />
+            </form-element>
+            <form-element label="Fee month" mod="student">
+                <input type="month" name="feemonth" class="form-control" placeholder="Fee month"ng-model="student.feemonth" />
+            </form-element>
+            <form-element label="Class" mod="student">
+                <select name="class" class="form-control" placeholder="Class" ng-model="student.class" >
+                    <option value="1">9<sup>th</sup></option>
+                    <option value="2">10<sup>th</sup></option>
+                    <option value="3">11<sup>th</sup></option>
+                    <option value="4">12<sup>th</sup></option>
+                </select>
+
+            </form-element>
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveStudent(student);"
+                                ng-disabled="student_form.$invalid || enableUpdate"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>
+

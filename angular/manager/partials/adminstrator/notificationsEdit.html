@@ -1,0 +1,56 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit Nortification [ID: {{notification.id}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="notification_form" class="form-horizontal" role="form" novalidate>
+            <form-element label="title" mod="notification">
+                <input type="text" class="form-control" name="title" placeholder="title" ng-model="notification.title"  focus/>
+            </form-element>
+            <form-element label="date" mod="notification">
+                <input type="date" class="form-control" name="date"  ng-model="notification.date" />
+            </form-element>
+            <form-element label="Message" mod="notification">
+                <textarea type="text" name="message" class="form-control" rows="4" placeholder="Enter Message here." ng-model="notification.message"/></textarea>
+            </form-element>
+	
+            <form-element label="Color" mod="notification">
+                <select name="type" class="form-control" placeholder="color" ng-model="notification.type" >
+                    <option selected="selected" value="alert-info">Blue</option>
+                    <option value="alert-warning">Yellow</option>
+                    <option value="alert-danger">Red</option>
+                    <option value="alert-success">Green</option>
+                </select>
+
+            </form-element>
+            <form-element label="Class" mod="notification">
+                <select name="class" class="form-control" placeholder="Class" ng-model="notification.class" >
+                    <option value="9">9<sup>th</sup></option>
+                    <option value="10">10<sup>th</sup></option>
+                    <option value="11">11<sup>th</sup></option>
+                    <option value="12">12<sup>th</sup></option>
+                </select>
+
+            </form-element>
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="savenotification(notification);"
+                                ng-disabled="notification_form.$invalid || enableUpdate"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>
+

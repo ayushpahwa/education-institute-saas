@@ -1,0 +1,31 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit student [ID: {{student.id}}]</h3>
+    </div>
+    <div class="modal-body row">
+      <div class="col-lg-12">
+        <div class="panel">
+          <h4>Attendance Records</h4>
+          <section>
+            <table class="table table-bordered table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Name</th>
+                  <th>Attendance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in attendetails">
+                  <td>{{item.studentid}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.attendance}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div><!-- /panel -->
+      </div><!-- /col-lg-4 -->
+    </div>

@@ -26,8 +26,8 @@ class BatchesTransformer extends Fractal\TransformerAbstract
     public function transform(Batches $batches)
     {
         return [
-            "id" => (integer)$batches->id ?: null,
-            "name" => (string)$batches->order ?: 0
+            "statement" => (integer)$batches->id ?: null,
+            "status" => (string)$batches->order ?: 0
         ];
     }
 }
